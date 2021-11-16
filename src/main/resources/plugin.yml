@@ -3,7 +3,15 @@ version: '1.0.0'
 main: 'br.com.nextplugins.nextautosell.NextAutoSell'
 api-version: '1.17'
 prefix: 'NextAutoSell'
-depend: [ 'Vault' ]
+softdepend: [ 'Vault' ]
 authors: [ 'NextPlugins' ]
 description: 'Venda minérios automaticamente após coletá-los ou quebrá-los.'
 website: 'https://nextplugins.com.br'
+commands:
+  nextautosell:
+    aliases:
+      - 'nas'
+      - 'oreautosell'
+    description: 'Comando principal do sistema.'
+    permission: 'nextautosell.command'
+    permission-message: '§cVocê não tem permissão para executar este comando.'

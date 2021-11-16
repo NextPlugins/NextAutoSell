@@ -1,0 +1,11 @@
+# multiplicadores permission-based. permissão base: "oreautosell.multiplier.VALOR_DO_MULTIPLICADOR"
+# exemplo: "oreautosell.multiplier.vip" -> irá ativar o
+# o multiplicador para o jogador ou grupo que tiver esta permissão
+# se o jogador não tiver nenhum grupo ou permissão, será utilizado o padrão ("default")
+# se o multiplicador padrão ("default") não existir, o valor padrão será 1x
+
+multipliers:
+  default: 1
+  vip: 1.5
+  vip+: 1.75
+  mvp: 2
