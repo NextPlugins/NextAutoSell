@@ -29,7 +29,7 @@ public final class NextAutoSellCommand implements CommandExecutor {
         final String argument = args[0];
 
         if (argument.equalsIgnoreCase("reload") || argument.equalsIgnoreCase("rl")) {
-            if (!sender.hasPermission("oreautosell.command.reload")) {
+            if (!sender.hasPermission("nextautosell.command.reload")) {
                 sender.sendMessage(ChatColor.RED + "Você não tem permissão para executar este comando.");
                 return true;
             }
