@@ -1,0 +1,13 @@
+messages:
+  successful-reload: "&aTodos os arquivos de configurações foram recarregados com sucesso. ({elapsedTime}ms)"
+  reload-failed: "&cOcorreu um erro durante o carregamento de um dos arquivos de configurações."
+  commands:
+    no-permission: "Você não tem permissão para executar este comando."
+    invalid-arguments: "Argumentos inválidos! Use: /oreautosell ou /oas para ajuda."
+    help:
+      - ""
+      - "&b&lNextAutoSell &8-&7 Ajuda"
+      - ""
+      - "&7/{label} &8-&f Leia esta mensagem"
+      - "&7/{label} reload &8-&f Recarrega todos os arquivos"
+      - ""

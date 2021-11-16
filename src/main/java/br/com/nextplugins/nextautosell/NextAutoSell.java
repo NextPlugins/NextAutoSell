@@ -61,7 +61,12 @@ public final class NextAutoSell extends JavaPlugin {
 
         if (command == null) return;
 
-        command.setExecutor(new NextAutoSellCommand(this));
+        command.setExecutor(
+            new NextAutoSellCommand(
+                this,
+                configurationManager.getMessagesConfiguration().getConfigurationSection("messages")
+            )
+        );
     }
 
     public static NextAutoSell getInstance() {

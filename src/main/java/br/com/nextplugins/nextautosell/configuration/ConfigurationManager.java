@@ -5,11 +5,12 @@ import com.google.common.base.Stopwatch;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.bukkit.ChatColor;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -19,6 +20,7 @@ public final class ConfigurationManager {
     private final NextAutoSell plugin;
 
     @Getter private FileConfiguration multipliersConfiguration;
+    @Getter private FileConfiguration messagesConfiguration;
     @Getter private FileConfiguration pricesConfiguration;
 
     public void init() {
@@ -27,9 +29,11 @@ public final class ConfigurationManager {
 
     private void files() {
         plugin.saveResource("multipliers.yml", false);
+        plugin.saveResource("messages.yml", false);
         plugin.saveResource("prices.yml", false);
 
         multipliersConfiguration = loadConfiguration("multipliers.yml");
+        messagesConfiguration = loadConfiguration("messages.yml");
         pricesConfiguration = loadConfiguration("prices.yml");
     }
 
@@ -43,6 +47,8 @@ public final class ConfigurationManager {
     @SneakyThrows
     public String tryReloadAllAndGiveCallbackMessage() {
         final CompletableFuture<String> reloadFuture = CompletableFuture.supplyAsync(() -> {
+            final ConfigurationSection messages = messagesConfiguration.getConfigurationSection("messages");
+
             try {
                 final Stopwatch timer = Stopwatch.createStarted();
 
@@ -54,14 +60,15 @@ public final class ConfigurationManager {
                 this.pricesConfiguration = loadConfiguration("prices.yml");
                 plugin.getAutoSellManager().loadPrices(true);
 
+                this.messagesConfiguration = loadConfiguration("messages.yml");
+
                 timer.stop();
 
-                return ChatColor.GREEN + String.format("Todos os arquivos de configurações foram recarregados com sucesso. (%sms)",
-                    timer.elapsed(TimeUnit.MILLISECONDS)
-                );
+                return Objects.requireNonNull(messages.getString("successful-reload"))
+                    .replace("{elapsedTime}", String.valueOf(timer.elapsed(TimeUnit.MILLISECONDS)));
             } catch (Throwable t) {
                 t.printStackTrace();
-                return ChatColor.RED + "Ocorreu um erro durante o carregamento de um dos arquivos de configurações.";
+                return messages.getString("reload-failed");
             }
         });
 

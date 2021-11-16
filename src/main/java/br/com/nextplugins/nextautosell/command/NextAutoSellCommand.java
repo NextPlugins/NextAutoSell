@@ -2,27 +2,37 @@ package br.com.nextplugins.nextautosell.command;
 
 import br.com.nextplugins.nextautosell.NextAutoSell;
 import br.com.nextplugins.nextautosell.configuration.ConfigurationManager;
+import br.com.nextplugins.nextautosell.util.ColorUtil;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.ConfigurationSection;
+
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public final class NextAutoSellCommand implements CommandExecutor {
 
     private final NextAutoSell plugin;
 
+    private final ConfigurationSection messages;
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length < 1) {
-            sender.sendMessage(
-                "",
-                "§b§lNextAutoSell §8-§7 Ajuda",
-                "",
-                String.format("§7/%s §8-§f Leia esta mensagem", label),
-                String.format("§7/%s reload §8-§f Recarrega todos os arquivos", label)
-            );
+            final Set<String> helpMessage = Objects.requireNonNull(messages.getStringList("commands.help"))
+                .stream()
+                .map(s -> s.replace("{label}", label))
+                .collect(Collectors.toSet());
+
+            for (String message : helpMessage) {
+                sender.sendMessage(ColorUtil.colored(message));
+            }
+
             return true;
         }
 
@@ -30,7 +40,7 @@ public final class NextAutoSellCommand implements CommandExecutor {
 
         if (argument.equalsIgnoreCase("reload") || argument.equalsIgnoreCase("rl")) {
             if (!sender.hasPermission("nextautosell.command.reload")) {
-                sender.sendMessage(ChatColor.RED + "Você não tem permissão para executar este comando.");
+                sender.sendMessage(ChatColor.RED + "");
                 return true;
             }
 
@@ -38,11 +48,11 @@ public final class NextAutoSellCommand implements CommandExecutor {
 
             final String callbackMessage = configurationManager.tryReloadAllAndGiveCallbackMessage();
 
-            sender.sendMessage(callbackMessage);
+            sender.sendMessage(ColorUtil.colored(callbackMessage));
 
             return true;
         } else {
-            sender.sendMessage(ChatColor.RED + "Argumentos inválidos! Use: /oreautosell ou /oas para ajuda.");
+            sender.sendMessage(ColorUtil.colored(messages.getString("invalid-arguments")));
         }
 
         return false;
