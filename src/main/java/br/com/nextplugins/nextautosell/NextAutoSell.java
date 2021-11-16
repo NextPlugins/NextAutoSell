@@ -1,11 +1,13 @@
 package br.com.nextplugins.nextautosell;
 
+import br.com.nextplugins.nextautosell.command.NextAutoSellCommand;
 import br.com.nextplugins.nextautosell.configuration.ConfigurationManager;
 import br.com.nextplugins.nextautosell.hook.EconomyHook;
 import br.com.nextplugins.nextautosell.listener.OreBreakListener;
 import br.com.nextplugins.nextautosell.manager.AutoSellManager;
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -30,6 +32,7 @@ public final class NextAutoSell extends JavaPlugin {
             autoSellManager.init();
             economyHook.init();
 
+            commands();
             listeners();
 
             getLogger().info("Plugin inicializado com sucesso.");
@@ -51,6 +54,14 @@ public final class NextAutoSell extends JavaPlugin {
             ),
             this
         );
+    }
+
+    private void commands() {
+        final PluginCommand command = getCommand("nextautosell");
+
+        if (command == null) return;
+
+        command.setExecutor(new NextAutoSellCommand(this));
     }
 
     public static NextAutoSell getInstance() {

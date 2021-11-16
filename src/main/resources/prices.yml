@@ -1,0 +1,8 @@
+# preço dos minérios
+# seguir o formato -> TIPO_DO_BLOCO: PREÇO EM COINS
+
+prices:
+  DIAMOND_ORE: 35
+  GOLD_ORE: 25
+  IRON_ORE: 12
+  COAL_ORE: 2.5
