@@ -2,9 +2,11 @@ package br.com.nextplugins.nextautosell;
 
 import br.com.nextplugins.nextautosell.configuration.ConfigurationManager;
 import br.com.nextplugins.nextautosell.hook.EconomyHook;
+import br.com.nextplugins.nextautosell.listener.OreBreakListener;
 import br.com.nextplugins.nextautosell.manager.AutoSellManager;
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 @Getter
@@ -28,12 +30,27 @@ public final class NextAutoSell extends JavaPlugin {
             autoSellManager.init();
             economyHook.init();
 
+            listeners();
+
             getLogger().info("Plugin inicializado com sucesso.");
         } catch (Throwable t) {
             t.printStackTrace();
             getLogger().severe("Ocorreu um erro durante a inicialização do plugin.");
             Bukkit.getPluginManager().disablePlugin(this);
         }
+    }
+
+    private void listeners() {
+        final PluginManager pluginManager = Bukkit.getPluginManager();
+
+        pluginManager.registerEvents(
+            new OreBreakListener(
+                getConfig(),
+                this.autoSellManager,
+                this.economyHook
+            ),
+            this
+        );
     }
 
     public static NextAutoSell getInstance() {
