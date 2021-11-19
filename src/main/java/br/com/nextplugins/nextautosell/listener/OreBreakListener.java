@@ -3,6 +3,7 @@ package br.com.nextplugins.nextautosell.listener;
 import br.com.nextplugins.nextautosell.hook.EconomyHook;
 import br.com.nextplugins.nextautosell.manager.AutoSellManager;
 import br.com.nextplugins.nextautosell.util.ActionBarUtil;
+import br.com.nextplugins.nextautosell.util.FortuneUtil;
 import br.com.nextplugins.nextautosell.util.NumberFormatter;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.block.Block;
@@ -21,6 +22,7 @@ public final class OreBreakListener implements Listener {
     private final FileConfiguration configuration;
     private final AutoSellManager manager;
     private final EconomyHook economy;
+    private final boolean useFortuneMultiplier;
 
     @EventHandler
     public void handleOreBreak(BlockBreakEvent event) {
@@ -37,13 +39,26 @@ public final class OreBreakListener implements Listener {
 
         if (blockPrice == 0) return;
 
-        economy.depositCoins(player, blockPrice);
+        int fortuneLevel = FortuneUtil.getFortuneLevel(player.getItemInHand());
 
-        final String formattedPrice = NumberFormatter.format(blockPrice);
+        double finalPrice = blockPrice;
+
+        if (useFortuneMultiplier) {
+            fortuneLevel = fortuneLevel == 0
+                ? 1
+                : fortuneLevel;
+
+            finalPrice = blockPrice * fortuneLevel;
+        }
+
+        economy.depositCoins(player, finalPrice);
+
+        final String formattedPrice = NumberFormatter.format(finalPrice);
 
         final String message = Objects.requireNonNull(configuration.getString("message"))
             .replace("{moneyEarned}", formattedPrice)
-            .replace("{multiplier}", NumberFormatter.format(playerMultiplier));
+            .replace("{multiplier}", NumberFormatter.format(playerMultiplier))
+            .replace("{fortune}", String.valueOf(fortuneLevel));
 
         ActionBarUtil.sendActionBar(player, message);
     }

@@ -50,7 +50,8 @@ public final class NextAutoSell extends JavaPlugin {
             new OreBreakListener(
                 getConfig(),
                 this.autoSellManager,
-                this.economyHook
+                this.economyHook,
+                getConfig().getBoolean("use-fortune-multiplier")
             ),
             this
         );

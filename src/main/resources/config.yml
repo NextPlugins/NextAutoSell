@@ -2,4 +2,6 @@ allowed-worlds:
   - 'world'
   - 'mines'
 
-message: '&a&lMINING &7| &f+&2{moneyEarned} &7(&a{multiplier}&7x)'
+message: '&a&lMINING &7| &f+&2{moneyEarned} &7(&a{multiplier}&7x) &7|&b {fortune}&fx Fortuna'
+
+use-fortune-multiplier: true
