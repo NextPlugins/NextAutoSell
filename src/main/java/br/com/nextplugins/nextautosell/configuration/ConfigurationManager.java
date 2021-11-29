@@ -65,7 +65,7 @@ public final class ConfigurationManager {
                 timer.stop();
 
                 return Objects.requireNonNull(messages.getString("successful-reload"))
-                    .replace("{elapsedTime}", String.valueOf(timer.elapsed(TimeUnit.MILLISECONDS)));
+                        .replace("{elapsedTime}", String.valueOf(timer.elapsed(TimeUnit.MILLISECONDS)));
             } catch (Throwable t) {
                 t.printStackTrace();
                 return messages.getString("reload-failed");

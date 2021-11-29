@@ -1,6 +1,7 @@
 package br.com.nextplugins.nextautosell.manager;
 
 import br.com.nextplugins.nextautosell.NextAutoSell;
+import br.com.nextplugins.nextautosell.model.Multiplier;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.Maps;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,7 @@ public final class AutoSellManager {
 
     private final NextAutoSell plugin;
 
-    private final Map<String, Double> multipliers = Maps.newLinkedHashMap();
+    private final Map<String, Multiplier> multipliers = Maps.newLinkedHashMap();
     private final Map<Material, Double> prices = Maps.newLinkedHashMap();
 
     public void init() {
@@ -64,7 +65,13 @@ public final class AutoSellManager {
         if (fromReload) multipliers.clear();
 
         for (String key : multipliersSection.getKeys(false)) {
-            multipliers.put(key, multipliersSection.getDouble(key));
+            multipliers.put(key, Multiplier.builder()
+                    .id(key)
+                    .name(multipliersSection.getString(key + ".name"))
+                    .displayName(multipliersSection.getString(key + ".display-name"))
+                    .value(multipliersSection.getDouble(key + ".value"))
+                    .build()
+            );
         }
 
         timer.stop();
@@ -82,8 +89,8 @@ public final class AutoSellManager {
         return Math.floor(price * multiplier);
     }
 
-    public double getPlayerMultiplier(Player player) {
-        double playerMultiplier = multipliers.getOrDefault("default", 1D);
+    public Multiplier getPlayerMultiplier(Player player) {
+        Multiplier playerMultiplier = multipliers.getOrDefault("default", null);
 
         for (String multiplier : multipliers.keySet()) {
             if (player.hasPermission("oreautosell.multiplier." + multiplier)) {

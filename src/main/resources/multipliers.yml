@@ -2,10 +2,21 @@
 # exemplo: "oreautosell.multiplier.vip" -> irá ativar o
 # o multiplicador para o jogador ou grupo que tiver esta permissão
 # se o jogador não tiver nenhum grupo ou permissão, será utilizado o padrão ("default")
-# se o multiplicador padrão ("default") não existir, o valor padrão será 1x
 
 multipliers:
-  default: 1
-  vip: 1.5
-  vip+: 1.75
-  mvp: 2
+  default:
+    name: 'Padrão'
+    display-name: '&7Padrão'
+    value: 1
+  vip:
+    name: 'VIP'
+    display-name: '&aVIP'
+    value: 1.5
+  vip+:
+    name: 'VIP+'
+    display-name: '&aVIP&6+'
+    value: 1.75
+  mvp:
+    name: 'MVP'
+    display-name: '&bMVP'
+    value: 2

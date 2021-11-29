@@ -2,6 +2,18 @@ allowed-worlds:
   - 'world'
   - 'mines'
 
-message: '&a&lMINING &7| &f+&2{moneyEarned} &7(&a{multiplier}&7x) &7|&b {fortune}&fx Fortuna'
+message: '&bMINERAÇÃO &7| &f+&2{moneyEarned} &7(&a{multiplierValue}&7x {multiplierName}&7) &7|&b {fortune}&fx Fortuna'
 
-use-fortune-multiplier: true
+# multiplicador de fortuna
+fortune-multiplier:
+
+  # ative ou desative o uso do sistema de multiplicador de fortuna
+  use: true
+
+  # tipo do multiplicador
+  # "ABSOLUTE" - irá multiplicar o valor do bloco pelo nível da fortuna
+  #  exemplo: o bloco STONE vale 1 coin, ao quebrar com fortuna 3, o valor final será 3 coins
+  # "DROP" - irá multiplicar o valor do bloco pelo número total de drops do bloco
+  #  exemplo: ao quebrar um minério de diamante com fortuna 10, se o número total de drops do bloco
+  #   for 150 e o valor do bloco for 10 coins, você receberá 1.500 coins
+  type: 'ABSOLUTE'

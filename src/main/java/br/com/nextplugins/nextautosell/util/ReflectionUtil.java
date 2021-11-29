@@ -58,7 +58,7 @@ public final class ReflectionUtil {
      * Performance is not a concern for these specific statically initialized values.
      */
     public static final String
-        VERSION = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
+            VERSION = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
     /**
      * The raw minor version number.
      * E.g. {@code v1_17_R1} to {@code 17}
@@ -70,8 +70,8 @@ public final class ReflectionUtil {
      * Mojang remapped their NMS in 1.17 https://www.spigotmc.org/threads/spigot-bungeecord-1-17.510208/#post-4184317
      */
     public static final String
-        CRAFTBUKKIT = "org.bukkit.craftbukkit." + VERSION + '.',
-        NMS = supports(17) ? "net.minecraft." : "net.minecraft.server." + VERSION + '.';
+            CRAFTBUKKIT = "org.bukkit.craftbukkit." + VERSION + '.',
+            NMS = supports(17) ? "net.minecraft." : "net.minecraft.server." + VERSION + '.';
     /**
      * A nullable public accessible field only available in {@code EntityPlayer}.
      * This can be null if the player is offline.
@@ -169,10 +169,10 @@ public final class ReflectionUtil {
 
     public static CompletableFuture<Void> sendPacket(Player player, Object... packets) {
         return CompletableFuture.runAsync(() -> sendPacketSync(player, packets))
-            .exceptionally(ex -> {
-                ex.printStackTrace();
-                return null;
-            });
+                .exceptionally(ex -> {
+                    ex.printStackTrace();
+                    return null;
+                });
     }
 
     /**

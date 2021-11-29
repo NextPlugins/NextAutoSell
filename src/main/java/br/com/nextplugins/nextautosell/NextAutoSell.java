@@ -5,6 +5,7 @@ import br.com.nextplugins.nextautosell.configuration.ConfigurationManager;
 import br.com.nextplugins.nextautosell.hook.EconomyHook;
 import br.com.nextplugins.nextautosell.listener.OreBreakListener;
 import br.com.nextplugins.nextautosell.manager.AutoSellManager;
+import br.com.nextplugins.nextautosell.manager.FortuneManager;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
@@ -17,6 +18,7 @@ public final class NextAutoSell extends JavaPlugin {
     private final ConfigurationManager configurationManager = ConfigurationManager.of(this);
 
     private final AutoSellManager autoSellManager = new AutoSellManager(this);
+    private FortuneManager fortuneManager;
 
     private final EconomyHook economyHook = new EconomyHook(this.getLogger());
 
@@ -31,6 +33,9 @@ public final class NextAutoSell extends JavaPlugin {
             configurationManager.init();
             autoSellManager.init();
             economyHook.init();
+
+            fortuneManager = new FortuneManager(this.getConfig().getConfigurationSection("fortune-multiplier"));
+            fortuneManager.init();
 
             commands();
             listeners();
@@ -47,13 +52,14 @@ public final class NextAutoSell extends JavaPlugin {
         final PluginManager pluginManager = Bukkit.getPluginManager();
 
         pluginManager.registerEvents(
-            new OreBreakListener(
-                getConfig(),
-                this.autoSellManager,
-                this.economyHook,
-                getConfig().getBoolean("use-fortune-multiplier")
-            ),
-            this
+                new OreBreakListener(
+                        getConfig(),
+                        this.autoSellManager,
+                        this.economyHook,
+                        getConfig().getBoolean("fortune-multiplier.use"),
+                        this.fortuneManager
+                ),
+                this
         );
     }
 
@@ -63,10 +69,10 @@ public final class NextAutoSell extends JavaPlugin {
         if (command == null) return;
 
         command.setExecutor(
-            new NextAutoSellCommand(
-                this,
-                configurationManager.getMessagesConfiguration().getConfigurationSection("messages")
-            )
+                new NextAutoSellCommand(
+                        this,
+                        configurationManager.getMessagesConfiguration().getConfigurationSection("messages")
+                )
         );
     }
 

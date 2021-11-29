@@ -98,7 +98,7 @@ public final class ActionBarUtil {
             try {
                 // Game Info Message Type
                 Class<?> chatMessageTypeClass = Class.forName(
-                    ReflectionUtil.NMS + (ReflectionUtil.supports(17) ? "network.chat" : "") + "ChatMessageType"
+                        ReflectionUtil.NMS + (ReflectionUtil.supports(17) ? "network.chat" : "") + "ChatMessageType"
                 );
 
                 // Packet Constructor

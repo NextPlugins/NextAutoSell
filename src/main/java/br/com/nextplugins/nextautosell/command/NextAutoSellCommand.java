@@ -25,9 +25,9 @@ public final class NextAutoSellCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length < 1) {
             final Set<String> helpMessage = Objects.requireNonNull(messages.getStringList("commands.help"))
-                .stream()
-                .map(s -> s.replace("{label}", label))
-                .collect(Collectors.toSet());
+                    .stream()
+                    .map(s -> s.replace("{label}", label))
+                    .collect(Collectors.toSet());
 
             for (String message : helpMessage) {
                 sender.sendMessage(ColorUtil.colored(message));
