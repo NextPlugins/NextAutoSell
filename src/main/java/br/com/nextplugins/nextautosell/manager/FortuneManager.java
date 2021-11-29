@@ -1,6 +1,5 @@
 package br.com.nextplugins.nextautosell.manager;
 
-import br.com.nextplugins.nextautosell.util.ColorUtil;
 import br.com.nextplugins.nextautosell.util.FortuneUtil;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.configuration.ConfigurationSection;
@@ -30,8 +29,6 @@ public final class FortuneManager {
                 if (drops == 0) drops = 1;
 
                 value *= drops;
-
-                player.sendMessage(ColorUtil.colored("&aTotal de drops: &f" + drops));
 
                 break;
         }
