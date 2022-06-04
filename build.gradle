@@ -2,7 +2,7 @@ plugins {
     id 'java'
 }
 group('br.com.nextplugins')
-version('1.0.2')
+version('1.0.3')
 
 repositories {
     mavenCentral()
@@ -17,7 +17,7 @@ dependencies {
     compileOnly('org.spigotmc:spigot-api:1.17.1-R0.1-SNAPSHOT')
     compileOnly('com.github.MilkBowl:VaultAPI:1.7')
 
-    def lombok = 'org.projectlombok:lombok:1.18.22'
+    def lombok = 'org.projectlombok:lombok:1.18.24'
     compileOnly(lombok)
     annotationProcessor(lombok)
 }
