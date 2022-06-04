@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
 import java.util.logging.Level;
@@ -18,11 +19,19 @@ public final class EconomyHook {
     private Economy economy;
 
     public void init() {
+        final PluginManager pluginManager = Bukkit.getPluginManager();
+
+        if (!pluginManager.isPluginEnabled("Vault")) {
+            logger.severe("Vault not found on the server! Disabling the plugin...");
+            pluginManager.disablePlugin(NextAutoSell.getInstance());
+            return;
+        }
+
         final RegisteredServiceProvider<Economy> registration = Bukkit.getServicesManager().getRegistration(Economy.class);
 
         if (registration == null) {
             logger.severe("No economy plugin found on the server! Disabling the plugin...");
-            Bukkit.getPluginManager().disablePlugin(NextAutoSell.getInstance());
+            pluginManager.disablePlugin(NextAutoSell.getInstance());
         } else {
             economy = registration.getProvider();
             logger.log(Level.INFO, "Successfully linked economy plugin! ({0})", registration.getPlugin().getName());
