@@ -21,12 +21,6 @@ public final class EconomyHook {
     public void init() {
         final PluginManager pluginManager = Bukkit.getPluginManager();
 
-        if (!pluginManager.isPluginEnabled("Vault")) {
-            logger.severe("Vault not found on the server! Disabling the plugin...");
-            pluginManager.disablePlugin(NextAutoSell.getInstance());
-            return;
-        }
-
         final RegisteredServiceProvider<Economy> registration = Bukkit.getServicesManager().getRegistration(Economy.class);
 
         if (registration == null) {

@@ -3,7 +3,7 @@ version: '1.0.3'
 main: 'br.com.nextplugins.nextautosell.NextAutoSell'
 api-version: '1.17'
 prefix: 'NextAutoSell'
-softdepend: [ 'Vault' ]
+depend:  [ 'Vault' ]
 authors: [ 'NextPlugins' ]
 description: 'Venda minérios automaticamente após coletá-los ou quebrá-los.'
 website: 'https://nextplugins.com.br'
