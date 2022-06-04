@@ -9,6 +9,7 @@ import br.com.nextplugins.nextautosell.util.ColorUtil;
 import br.com.nextplugins.nextautosell.util.FortuneUtil;
 import br.com.nextplugins.nextautosell.util.NumberFormatter;
 import lombok.RequiredArgsConstructor;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -53,30 +54,33 @@ public final class OreBreakListener implements Listener {
 
         if (useFortuneMultiplier) {
             finalPrice = fortuneManager.applyFortuneMultiplier(
-                    player,
-                    blockPrice,
-                    getDrops(player.getItemInHand(), block, fortuneLevel)
+                player,
+                blockPrice,
+                getDrops(player.getItemInHand(), block, fortuneLevel)
             );
         }
+
+        event.setCancelled(true);
+        block.setType(Material.AIR);
 
         economy.depositCoins(player, finalPrice);
 
         final String formattedPrice = NumberFormatter.format(finalPrice);
 
         final String message = Objects.requireNonNull(configuration.getString("message"))
-                .replace("{moneyEarned}", formattedPrice)
-                .replace("{multiplierName}", ColorUtil.colored(playerMultiplier.getDisplayName()))
-                .replace("{multiplierValue}", NumberFormatter.format(playerMultiplier.getValue()))
-                .replace("{fortune}", String.valueOf(fortuneLevel));
+            .replace("{moneyEarned}", formattedPrice)
+            .replace("{multiplierName}", ColorUtil.colored(playerMultiplier.getDisplayName()))
+            .replace("{multiplierValue}", NumberFormatter.format(playerMultiplier.getValue()))
+            .replace("{fortune}", String.valueOf(fortuneLevel));
 
         ActionBarUtil.sendActionBar(player, message);
     }
 
     private int getDrops(ItemStack tool, Block block, int fortuneLevel) {
         final ItemStack drop = block.getDrops(tool).stream()
-                .findFirst().orElse(null);
+            .findFirst().orElse(null);
 
-        return drop == null ? 1 : drop.getAmount() + RANDOM.nextInt(fortuneLevel);
+        return drop == null ? 1 : drop.getAmount() + RANDOM.nextInt(fortuneLevel == 0 ? 1 : fortuneLevel);
     }
 
 }
